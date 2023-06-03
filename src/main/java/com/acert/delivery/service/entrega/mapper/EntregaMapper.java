@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class EntregaMapper {
+public final class EntregaMapper {
 
     public static Entrega deEntregaDTOParaEntrega(EntregaDTO entregaDTO) {
         return Optional.ofNullable(entregaDTO)

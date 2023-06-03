@@ -1,31 +1,14 @@
 package com.acert.delivery.entity.pedido;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import com.acert.delivery.entity.cliente.Cliente;
 import com.acert.delivery.entity.entrega.Entrega;
 import com.acert.delivery.entity.produto.Produto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -51,6 +34,16 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	@JsonBackReference
 	private Cliente cliente;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Column(name = "produtos_id")
+	private List<Long> produtosId;
+
+	@Column(name = "cliente_id")
+	private Long clienteId;
+
+	@Column(name = "entrega_id")
+	private Long entregaId;
 
 	@Column(nullable = false, name = "valor_total")
 	private Double valorTotal;

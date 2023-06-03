@@ -2,7 +2,8 @@ package com.acert.delivery.service.cliente;
 
 import com.acert.delivery.entity.cliente.Cliente;
 import com.acert.delivery.repository.cliente.ClienteRepository;
-import com.acert.delivery.service.cliente.dto.ClienteDTO;
+import com.acert.delivery.service.cliente.dto.ClienteRequestDTO;
+import com.acert.delivery.service.cliente.dto.ClienteResponseDTO;
 import com.acert.delivery.service.cliente.exception.ClienteNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,25 +20,25 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     private static final String MENSAGEM_DE_ERRO = "Cliente %s não encontrado.";
 
-    public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO) {
-        Cliente cliente = deClienteDTOParaCliente(clienteDTO);
+    public ClienteResponseDTO cadastrarCliente(ClienteRequestDTO clienteRequestDTO) {
+        Cliente cliente = deClienteDTOParaCliente(clienteRequestDTO);
         return deClienteParaClienteDTO(clienteRepository.save(cliente));
     }
 
-    public List<ClienteDTO> encontrarTodosOsClientes() {
+    public List<ClienteResponseDTO> encontrarTodosOsClientes() {
         return deListaClientesParaListaClientesDTO(clienteRepository.findAll());
     }
 
-    public ClienteDTO encontrarPorNome(String nome) {
-        return deClienteParaClienteDTO(clienteRepository.findByNome(nome)
+    public ClienteResponseDTO encontrarPorNome(String nome) {
+        return deClienteParaClienteDTO(buscarClientePorNome(nome)
                 .orElseThrow(() -> new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
     }
 
-    public ClienteDTO atualizarCliente(String nome, ClienteDTO clienteDTO) {
-        Optional<Cliente> cliente = clienteRepository.findByNome(nome);
+    public ClienteResponseDTO atualizarCliente(String nome, ClienteRequestDTO clienteRequestDTO) {
+        Optional<Cliente> cliente = buscarClientePorNome(nome);
 
         if (clienteExiste(cliente)) {
-            Cliente novoCliente = deClienteDTOParaCliente(clienteDTO);
+            Cliente novoCliente = deClienteDTOParaCliente(clienteRequestDTO);
             return deClienteParaClienteDTO(clienteRepository.save(novoCliente));
         } else {
             throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
@@ -45,13 +46,17 @@ public class ClienteService {
     }
 
     public void deletarPorNome(String nome) {
-        Optional<Cliente> cliente = clienteRepository.findByNome(nome);
+        Optional<Cliente> cliente = buscarClientePorNome(nome);
 
         if (clienteExiste(cliente)) {
             clienteRepository.deleteClienteByNome(nome);
         } else {
             throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
         }
+    }
+
+    private Optional<Cliente> buscarClientePorNome(String nome) {
+        return clienteRepository.findByNome(nome);
     }
 
     private boolean clienteExiste(Optional<Cliente> optionalCliente) {
