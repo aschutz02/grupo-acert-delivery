@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "pedido")
+@Table(name = "pedidos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -48,7 +48,7 @@ public class Pedido implements Serializable {
 	private List<Produto> produtos;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente", referencedColumnName = "id")
+	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	@JsonBackReference
 	private Cliente cliente;
 
