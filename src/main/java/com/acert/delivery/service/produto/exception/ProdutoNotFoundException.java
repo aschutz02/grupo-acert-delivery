@@ -1,4 +1,4 @@
-package com.acert.delivery.service.produto;
+package com.acert.delivery.service.produto.exception;
 
 public class ProdutoNotFoundException extends RuntimeException {
 
