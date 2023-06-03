@@ -1,5 +1,6 @@
 package com.acert.delivery.controller;
 
+import com.acert.delivery.service.cliente.exception.ClienteNotFoundException;
 import com.acert.delivery.service.entrega.exception.EntregaNotFoundException;
 import com.acert.delivery.service.produto.exception.ProdutoNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,11 @@ public class ResponseErrorHandler {
 
     @ExceptionHandler(EntregaNotFoundException.class)
     public ResponseEntity<String> gerenciarEntregaNotFoundException(EntregaNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ClienteNotFoundException.class)
+    public ResponseEntity<String> gerenciarEntregaNotFoundException(ClienteNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
