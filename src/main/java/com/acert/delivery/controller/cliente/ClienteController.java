@@ -15,28 +15,23 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @PostMapping
-    public ClienteResponseDTO cadastrarCliente(@RequestBody ClienteRequestDTO clienteRequestDTO) {
-        return clienteService.cadastrarCliente(clienteRequestDTO);
-    }
-
     @GetMapping
     public List<ClienteResponseDTO> encontrarTodosOsClientes() {
         return clienteService.encontrarTodosOsClientes();
     }
 
-    @GetMapping("/{nome}")
-    public ClienteResponseDTO encontrarClientePorNome(@PathVariable String nome) {
-        return clienteService.encontrarPorNome(nome);
+    @GetMapping("/{email}")
+    public ClienteResponseDTO encontrarClientePorEmail(@PathVariable String email) {
+        return clienteService.encontrarPorEmail(email);
     }
 
-    @PutMapping("/{nome}")
-    public ClienteResponseDTO atualizarCliente(@PathVariable String nome, @RequestBody ClienteRequestDTO clienteRequestDTO) {
-        return clienteService.atualizarCliente(nome, clienteRequestDTO);
+    @PutMapping("/{email}")
+    public ClienteResponseDTO atualizarCliente(@PathVariable String email, @RequestBody ClienteRequestDTO clienteRequestDTO) {
+        return clienteService.atualizarCliente(email, clienteRequestDTO);
     }
 
-    @DeleteMapping("/{nome}")
-    public void deletarClientePorNome(@PathVariable String nome) {
-        clienteService.deletarPorNome(nome);
+    @DeleteMapping("/{email}")
+    public void deletarClientePorEmail(@PathVariable String email) {
+        clienteService.deletarPorEmail(email);
     }
 }

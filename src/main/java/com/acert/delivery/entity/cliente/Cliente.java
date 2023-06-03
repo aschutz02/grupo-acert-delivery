@@ -30,7 +30,8 @@ import lombok.Setter;
 public class Cliente implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "id")
 	private Long id;
 
 	@Column(nullable = false)
@@ -39,6 +40,6 @@ public class Cliente implements Serializable {
 	@Column(nullable = false)
 	private String senha;
 
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Pedido> pedidos;
+//	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<Pedido> pedidos;
 }

@@ -29,34 +29,34 @@ public class ClienteService {
         return deListaClientesParaListaClientesDTO(clienteRepository.findAll());
     }
 
-    public ClienteResponseDTO encontrarPorNome(String nome) {
-        return deClienteParaClienteDTO(buscarClientePorNome(nome)
-                .orElseThrow(() -> new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
+    public ClienteResponseDTO encontrarPorEmail(String email) {
+        return deClienteParaClienteDTO(buscarClientePorEmail(email)
+                .orElseThrow(() -> new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, email))));
     }
 
-    public ClienteResponseDTO atualizarCliente(String nome, ClienteRequestDTO clienteRequestDTO) {
-        Optional<Cliente> cliente = buscarClientePorNome(nome);
+    public ClienteResponseDTO atualizarCliente(String email, ClienteRequestDTO clienteRequestDTO) {
+        Optional<Cliente> cliente = buscarClientePorEmail(email);
 
         if (clienteExiste(cliente)) {
             Cliente novoCliente = deClienteDTOParaCliente(clienteRequestDTO);
             return deClienteParaClienteDTO(clienteRepository.save(novoCliente));
         } else {
-            throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
+            throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, email));
         }
     }
 
-    public void deletarPorNome(String nome) {
-        Optional<Cliente> cliente = buscarClientePorNome(nome);
+    public void deletarPorEmail(String email) {
+        Optional<Cliente> cliente = buscarClientePorEmail(email);
 
         if (clienteExiste(cliente)) {
-            clienteRepository.deleteClienteByNome(nome);
+            clienteRepository.deleteClienteByEmail(email);
         } else {
-            throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
+            throw new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, email));
         }
     }
 
-    private Optional<Cliente> buscarClientePorNome(String nome) {
-        return clienteRepository.findByNome(nome);
+    private Optional<Cliente> buscarClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email);
     }
 
     private boolean clienteExiste(Optional<Cliente> optionalCliente) {
