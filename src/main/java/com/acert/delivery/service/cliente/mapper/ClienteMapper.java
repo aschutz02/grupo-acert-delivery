@@ -34,6 +34,7 @@ public final class ClienteMapper {
                 .map(entidadeCliente -> ClienteResponseDTO.builder()
                         .id(entidadeCliente.getId())
                         .email(entidadeCliente.getEmail())
+                        .senha(entidadeCliente.getSenha())
                         .build())
                 .orElse(null);
     }

@@ -1,22 +1,9 @@
 package com.acert.delivery.entity.entrega;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.acert.delivery.entity.pedido.Pedido;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "entregas")
@@ -49,6 +36,6 @@ public class Entrega implements Serializable {
 	@Column
 	private String complemento;
 
-	@OneToOne(mappedBy = "entrega")
-	private Pedido pedido;
+//	@OneToOne(mappedBy = "entrega")
+//	private Pedido pedido;
 }

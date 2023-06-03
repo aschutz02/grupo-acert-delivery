@@ -1,9 +1,6 @@
 package com.acert.delivery.entity.pedido;
 
-import com.acert.delivery.entity.cliente.Cliente;
-import com.acert.delivery.entity.entrega.Entrega;
 import com.acert.delivery.entity.produto.Produto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,22 +20,23 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "entrega_id", referencedColumnName = "id")
-	private Entrega entrega;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "entrega_id", referencedColumnName = "id")
+//	private Entrega entrega;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Produto> produtos;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
-	@JsonBackReference
-	private Cliente cliente;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
+//	@JsonBackReference
+//	private Cliente cliente;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name = "produtos_id")
 	private List<Long> produtosId;
 
+	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	@Column(name = "cliente_id")
 	private Long clienteId;
 
