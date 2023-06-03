@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "produto")
+@Table(name = "produtos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -42,7 +42,7 @@ public class Produto implements Serializable {
 	private Double preco;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pedido", referencedColumnName = "id")
+	@JoinColumn(name = "pedidos", referencedColumnName = "id")
 	@JsonBackReference
 	private Pedido pedido;
 }
