@@ -24,18 +24,18 @@ public class EntregaController {
         return entregaService.encontrarTodasAsEntregas();
     }
 
-    @GetMapping("/{nome}")
-    public EntregaDTO encontrarEntregaPorNome(@PathVariable String nome) {
-        return entregaService.encontrarPorNome(nome);
+    @GetMapping("/{id}")
+    public EntregaDTO encontrarEntregaPorId(@PathVariable Long id) {
+        return entregaService.encontrarPorId(id);
     }
 
-    @PutMapping("/{nome}")
-    public EntregaDTO atualizarEntrega(@PathVariable String nome, @RequestBody EntregaDTO entregaDTO) {
-        return entregaService.atualizarEntrega(nome, entregaDTO);
+    @PutMapping("/{id}")
+    public EntregaDTO atualizarEntrega(@PathVariable Long id, @RequestBody EntregaDTO entregaDTO) {
+        return entregaService.atualizarEntrega(id, entregaDTO);
     }
 
-    @DeleteMapping("/{nome}")
-    public void deletarEntregaPorNome(@PathVariable String nome) {
-        entregaService.deletarPorNome(nome);
+    @DeleteMapping("/{id}")
+    public void deletarEntregaPorId(@PathVariable Long id) {
+        entregaService.deletarPorId(id);
     }
 }

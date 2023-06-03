@@ -28,30 +28,34 @@ public class EntregaService {
         return deListaEntregasParaListaEntregasDTO(entregaRepository.findAll());
     }
 
-    public EntregaDTO encontrarPorNome(String nome) {
-        return deEntregaParaEntregaDTO(entregaRepository.findByNome(nome)
-                .orElseThrow(() -> new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
+    public EntregaDTO encontrarPorId(Long id) {
+        return deEntregaParaEntregaDTO(buscarEntregaPorId(id)
+                .orElseThrow(() -> new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
     }
 
-    public EntregaDTO atualizarEntrega(String nome, EntregaDTO entregaDTO) {
-        Optional<Entrega> entrega = entregaRepository.findByNome(nome);
+    public EntregaDTO atualizarEntrega(Long id, EntregaDTO entregaDTO) {
+        Optional<Entrega> entrega = buscarEntregaPorId(id);
 
         if (entregaExiste(entrega)) {
             Entrega novaEntrega = deEntregaDTOParaEntrega(entregaDTO);
             return deEntregaParaEntregaDTO(entregaRepository.save(novaEntrega));
         } else {
-            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
+            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
         }
     }
 
-    public void deletarPorNome(String nome) {
-        Optional<Entrega> entrega = entregaRepository.findByNome(nome);
+    public void deletarPorId(Long id) {
+        Optional<Entrega> entrega = buscarEntregaPorId(id);
 
         if (entregaExiste(entrega)) {
-            entregaRepository.deleteEntregaByNome(nome);
+            entregaRepository.deleteById(id);
         } else {
-            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
+            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
         }
+    }
+
+    private Optional<Entrega> buscarEntregaPorId(Long id) {
+        return entregaRepository.findById(id);
     }
 
     private boolean entregaExiste(Optional<Entrega> optionalEntrega) {

@@ -7,9 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class ClienteDTO {
+public class ClienteResponseDTO {
 
     private Long id;
     private String email;
-    private String senha;
 }

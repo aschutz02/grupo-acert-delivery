@@ -31,12 +31,12 @@ public class ProdutoService {
     }
 
     public ProdutoDTO encontrarPorNome(String nome) {
-        return deProdutoParaProdutoDTO(produtoRepository.findByNome(nome)
+        return deProdutoParaProdutoDTO(buscarProdutoPorNome(nome)
                 .orElseThrow(() -> new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
     }
 
     public ProdutoDTO atualizarProduto(String nome, ProdutoDTO produtoDTO) {
-        Optional<Produto> produto = produtoRepository.findByNome(nome);
+        Optional<Produto> produto = buscarProdutoPorNome(nome);
 
         if (produtoExiste(produto)) {
             Produto novoProduto = ProdutoMapper.deProdutoDTOParaProduto(produtoDTO);
@@ -47,13 +47,17 @@ public class ProdutoService {
     }
 
     public void deletarPorNome(String nome) {
-        Optional<Produto> produto = produtoRepository.findByNome(nome);
+        Optional<Produto> produto = buscarProdutoPorNome(nome);
 
         if (produtoExiste(produto)) {
             produtoRepository.deleteProdutoByNome(nome);
         } else {
             throw new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
         }
+    }
+
+    private Optional<Produto> buscarProdutoPorNome(String nome) {
+        return produtoRepository.findByNome(nome);
     }
 
     private boolean produtoExiste(Optional<Produto> optionalProduto) {

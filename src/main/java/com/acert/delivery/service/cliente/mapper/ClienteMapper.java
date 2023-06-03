@@ -1,8 +1,8 @@
 package com.acert.delivery.service.cliente.mapper;
 
 import com.acert.delivery.entity.cliente.Cliente;
-import com.acert.delivery.service.cliente.dto.ClienteDTO;
-import com.acert.delivery.service.entrega.mapper.EntregaMapper;
+import com.acert.delivery.service.cliente.dto.ClienteRequestDTO;
+import com.acert.delivery.service.cliente.dto.ClienteResponseDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClienteMapper {
+public final class ClienteMapper {
 
-    public static Cliente deClienteDTOParaCliente(ClienteDTO clienteDTO) {
-        return Optional.ofNullable(clienteDTO)
+    public static Cliente deClienteDTOParaCliente(ClienteRequestDTO clienteRequestDTO) {
+        return Optional.ofNullable(clienteRequestDTO)
                 .map(cliente -> Cliente.builder()
                         .id(cliente.getId())
                         .email(cliente.getEmail())
@@ -23,18 +23,17 @@ public class ClienteMapper {
                 .orElse(null);
     }
 
-    public static List<ClienteDTO> deListaClientesParaListaClientesDTO(List<Cliente> clientes) {
+    public static List<ClienteResponseDTO> deListaClientesParaListaClientesDTO(List<Cliente> clientes) {
         return clientes.stream()
                 .map(ClienteMapper::deClienteParaClienteDTO)
                 .collect(Collectors.toList());
     }
 
-    public static ClienteDTO deClienteParaClienteDTO(Cliente cliente) {
+    public static ClienteResponseDTO deClienteParaClienteDTO(Cliente cliente) {
         return Optional.ofNullable(cliente)
-                .map(entidadeCliente -> ClienteDTO.builder()
+                .map(entidadeCliente -> ClienteResponseDTO.builder()
                         .id(entidadeCliente.getId())
                         .email(entidadeCliente.getEmail())
-                        .senha(entidadeCliente.getSenha())
                         .build())
                 .orElse(null);
     }
