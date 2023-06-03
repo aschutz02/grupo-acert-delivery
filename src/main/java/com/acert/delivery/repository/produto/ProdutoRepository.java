@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.acert.delivery.entity.produto.Produto;
 
+import java.util.Optional;
+
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+
+    Optional<Produto> findByNome(String nome);
+    void deleteProdutoByNome(String nome);
 }
