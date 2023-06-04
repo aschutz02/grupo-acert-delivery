@@ -1,4 +1,4 @@
-package com.acert.delivery.config;
+package com.acert.delivery.config.autenticacao;
 
 import com.acert.delivery.filtro.FiltroGeradorJWTToken;
 import com.acert.delivery.filtro.FiltroValidacaoJWTToken;
@@ -16,7 +16,6 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
 import java.util.Collections;
-
 
 @Configuration
 public class ConfigSeguranca {

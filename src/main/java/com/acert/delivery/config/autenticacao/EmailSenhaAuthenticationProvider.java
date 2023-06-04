@@ -1,4 +1,4 @@
-package com.acert.delivery.config;
+package com.acert.delivery.config.autenticacao;
 
 import com.acert.delivery.service.cliente.ClienteService;
 import com.acert.delivery.service.cliente.dto.ClienteResponseDTO;
@@ -24,7 +24,7 @@ public class EmailSenhaAuthenticationProvider implements AuthenticationProvider 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        ClienteResponseDTO cliente = clienteService.encontrarPorEmail(email);
+        ClienteResponseDTO cliente = clienteService.encontrarPeloEmail(email);
         if (nonNull(cliente)) {
             if (pwd.equals(cliente.getSenha())) {
                 return new UsernamePasswordAuthenticationToken(email, pwd, new ArrayList<>());

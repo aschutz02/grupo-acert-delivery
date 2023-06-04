@@ -28,7 +28,6 @@ public class FiltroValidacaoJWTToken extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("HEADERS: " + request.getHeaderNames());
         String jwt = request.getHeader(JWT_HEADER);
         if (nonNull(jwt)) {
             try {

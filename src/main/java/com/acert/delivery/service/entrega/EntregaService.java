@@ -28,13 +28,13 @@ public class EntregaService {
         return deListaEntregasParaListaEntregasDTO(entregaRepository.findAll());
     }
 
-    public EntregaDTO encontrarPorId(Long id) {
-        return deEntregaParaEntregaDTO(buscarEntregaPorId(id)
+    public EntregaDTO encontrarPeloId(Long id) {
+        return deEntregaParaEntregaDTO(buscarEntregaPeloId(id)
                 .orElseThrow(() -> new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
     }
 
     public EntregaDTO atualizarEntrega(Long id, EntregaDTO entregaDTO) {
-        Optional<Entrega> entrega = buscarEntregaPorId(id);
+        Optional<Entrega> entrega = buscarEntregaPeloId(id);
 
         if (entregaExiste(entrega)) {
             Entrega novaEntrega = deEntregaDTOParaEntrega(entregaDTO);
@@ -44,8 +44,8 @@ public class EntregaService {
         }
     }
 
-    public void deletarPorId(Long id) {
-        Optional<Entrega> entrega = buscarEntregaPorId(id);
+    public void deletarPeloId(Long id) {
+        Optional<Entrega> entrega = buscarEntregaPeloId(id);
 
         if (entregaExiste(entrega)) {
             entregaRepository.deleteById(id);
@@ -54,7 +54,7 @@ public class EntregaService {
         }
     }
 
-    private Optional<Entrega> buscarEntregaPorId(Long id) {
+    private Optional<Entrega> buscarEntregaPeloId(Long id) {
         return entregaRepository.findById(id);
     }
 

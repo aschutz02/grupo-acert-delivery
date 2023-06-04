@@ -4,11 +4,15 @@ package com.acert.delivery.controller.cadastro;
 import com.acert.delivery.service.cliente.ClienteService;
 import com.acert.delivery.service.cliente.dto.ClienteRequestDTO;
 import com.acert.delivery.service.cliente.dto.ClienteResponseDTO;
+import com.acert.delivery.service.entrega.dto.EntregaDTO;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,8 +21,15 @@ public class CadastroController {
 
     private final ClienteService clienteService;
 
-    @PostMapping()
-    public ClienteResponseDTO cadastrarCliente(@RequestBody ClienteRequestDTO clienteRequestDTO) {
+    @ApiOperation(value = "Cadastrar um cliente")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Cliente cadastrado", response = ClienteResponseDTO.class),
+            @ApiResponse(code = 400, message = "Erro na requisição"),
+            @ApiResponse(code = 500, message = "Erro interno")
+    })
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClienteResponseDTO cadastrarCliente(@RequestBody @Valid ClienteRequestDTO clienteRequestDTO) {
         return clienteService.cadastrarCliente(clienteRequestDTO);
     }
 }
