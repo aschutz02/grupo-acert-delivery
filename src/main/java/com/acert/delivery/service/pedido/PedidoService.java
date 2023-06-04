@@ -28,13 +28,13 @@ public class PedidoService {
         return deListaPedidosParaListaPedidosDTO(pedidoRepository.findAll());
     }
 
-    public PedidoDTO encontrarPorId(Long id) {
-        return dePedidoParaPedidoDTO(buscarPedidoPorId(id)
+    public PedidoDTO encontrarPeloId(Long id) {
+        return dePedidoParaPedidoDTO(buscarPedidoPeloId(id)
                 .orElseThrow(() -> new PedidoNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
     }
 
     public PedidoDTO atualizarPedido(Long id, PedidoDTO pedidoDTO) {
-        Optional<Pedido> pedido = buscarPedidoPorId(id);
+        Optional<Pedido> pedido = buscarPedidoPeloId(id);
 
         if (pedidoExiste(pedido)) {
             Pedido novoPedido = dePedidoDTOParaPedido(pedidoDTO);
@@ -44,8 +44,8 @@ public class PedidoService {
         }
     }
 
-    public void deletarPorId(Long id) {
-        Optional<Pedido> pedido = buscarPedidoPorId(id);
+    public void deletarPeloId(Long id) {
+        Optional<Pedido> pedido = buscarPedidoPeloId(id);
 
         if (pedidoExiste(pedido)) {
             pedidoRepository.deleteById(id);
@@ -54,7 +54,7 @@ public class PedidoService {
         }
     }
 
-    private Optional<Pedido> buscarPedidoPorId(Long id) {
+    private Optional<Pedido> buscarPedidoPeloId(Long id) {
         return pedidoRepository.findById(id);
     }
 

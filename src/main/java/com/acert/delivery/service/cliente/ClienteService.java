@@ -29,13 +29,13 @@ public class ClienteService {
         return deListaClientesParaListaClientesDTO(clienteRepository.findAll());
     }
 
-    public ClienteResponseDTO encontrarPorEmail(String email) {
-        return deClienteParaClienteDTO(buscarClientePorEmail(email)
+    public ClienteResponseDTO encontrarPeloEmail(String email) {
+        return deClienteParaClienteDTO(buscarClientePeloEmail(email)
                 .orElseThrow(() -> new ClienteNotFoundException(String.format(MENSAGEM_DE_ERRO, email))));
     }
 
     public ClienteResponseDTO atualizarCliente(String email, ClienteRequestDTO clienteRequestDTO) {
-        Optional<Cliente> cliente = buscarClientePorEmail(email);
+        Optional<Cliente> cliente = buscarClientePeloEmail(email);
 
         if (clienteExiste(cliente)) {
             Cliente novoCliente = deClienteDTOParaCliente(clienteRequestDTO);
@@ -45,8 +45,8 @@ public class ClienteService {
         }
     }
 
-    public void deletarPorEmail(String email) {
-        Optional<Cliente> cliente = buscarClientePorEmail(email);
+    public void deletarPeloEmail(String email) {
+        Optional<Cliente> cliente = buscarClientePeloEmail(email);
 
         if (clienteExiste(cliente)) {
             clienteRepository.deleteClienteByEmail(email);
@@ -55,7 +55,7 @@ public class ClienteService {
         }
     }
 
-    private Optional<Cliente> buscarClientePorEmail(String email) {
+    private Optional<Cliente> buscarClientePeloEmail(String email) {
         return clienteRepository.findByEmail(email);
     }
 

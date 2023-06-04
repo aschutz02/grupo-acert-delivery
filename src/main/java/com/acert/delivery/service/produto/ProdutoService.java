@@ -30,13 +30,13 @@ public class ProdutoService {
         return deListaProdutosParaListaProdutosDTO(produtoRepository.findAll());
     }
 
-    public ProdutoDTO encontrarPorNome(String nome) {
-        return deProdutoParaProdutoDTO(buscarProdutoPorNome(nome)
+    public ProdutoDTO encontrarPeloNome(String nome) {
+        return deProdutoParaProdutoDTO(buscarProdutoPeloNome(nome)
                 .orElseThrow(() -> new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
     }
 
     public ProdutoDTO atualizarProduto(String nome, ProdutoDTO produtoDTO) {
-        Optional<Produto> produto = buscarProdutoPorNome(nome);
+        Optional<Produto> produto = buscarProdutoPeloNome(nome);
 
         if (produtoExiste(produto)) {
             Produto novoProduto = ProdutoMapper.deProdutoDTOParaProduto(produtoDTO);
@@ -46,8 +46,8 @@ public class ProdutoService {
         }
     }
 
-    public void deletarPorNome(String nome) {
-        Optional<Produto> produto = buscarProdutoPorNome(nome);
+    public void deletarPeloNome(String nome) {
+        Optional<Produto> produto = buscarProdutoPeloNome(nome);
 
         if (produtoExiste(produto)) {
             produtoRepository.deleteProdutoByNome(nome);
@@ -56,7 +56,7 @@ public class ProdutoService {
         }
     }
 
-    private Optional<Produto> buscarProdutoPorNome(String nome) {
+    private Optional<Produto> buscarProdutoPeloNome(String nome) {
         return produtoRepository.findByNome(nome);
     }
 
