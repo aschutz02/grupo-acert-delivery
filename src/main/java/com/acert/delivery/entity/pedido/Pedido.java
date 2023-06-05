@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -30,11 +29,10 @@ public class Pedido implements Serializable {
 //	@JsonBackReference
 //	private Cliente cliente;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@Column(name = "produtos_id")
-	private List<Long> produtosId;
+	@Column(name = "produto_id")
+	private Long produtoId;
 
-	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
+//	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	@Column(name = "cliente_id")
 	private Long clienteId;
 

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.acert.delivery.service.produto.mapper.ProdutoMapper.*;
 
@@ -29,36 +28,29 @@ public class ProdutoService {
     }
 
     public ProdutoDTO encontrarPeloNome(String nome) {
-        return deProdutoParaProdutoDTO(buscarProdutoPeloNome(nome)
-                .orElseThrow(() -> new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome))));
+        return deProdutoParaProdutoDTO(buscarProdutoPeloNome(nome));
+    }
+
+    public ProdutoDTO encontrarPeloId(Long id) {
+        return deProdutoParaProdutoDTO(produtoRepository.findById(id)
+                .orElseThrow(() -> new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
     }
 
     public ProdutoDTO atualizarProduto(String nome, ProdutoDTO produtoDTO) {
-        Optional<Produto> produto = buscarProdutoPeloNome(nome);
+        buscarProdutoPeloNome(nome);
 
-        if (produtoExiste(produto)) {
-            Produto novoProduto = deProdutoDTOParaProduto(produtoDTO);
-            return deProdutoParaProdutoDTO(produtoRepository.save(novoProduto));
-        } else {
-            throw new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
-        }
+        Produto novoProduto = deProdutoDTOParaProduto(produtoDTO);
+        return deProdutoParaProdutoDTO(produtoRepository.save(novoProduto));
     }
 
     public void deletarPeloNome(String nome) {
-        Optional<Produto> produto = buscarProdutoPeloNome(nome);
+        buscarProdutoPeloNome(nome);
 
-        if (produtoExiste(produto)) {
-            produtoRepository.deleteProdutoByNome(nome);
-        } else {
-            throw new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome));
-        }
+        produtoRepository.deleteProdutoByNome(nome);
     }
 
-    private Optional<Produto> buscarProdutoPeloNome(String nome) {
-        return produtoRepository.findByNome(nome);
-    }
-
-    private boolean produtoExiste(Optional<Produto> optionalProduto) {
-        return optionalProduto.isPresent();
+    private Produto buscarProdutoPeloNome(String nome) {
+        return produtoRepository.findByNome(nome)
+                .orElseThrow(() -> new ProdutoNotFoundException(String.format(MENSAGEM_DE_ERRO, nome)));
     }
 }

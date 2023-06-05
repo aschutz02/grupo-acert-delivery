@@ -1,7 +1,8 @@
 package com.acert.delivery.service.pedido.mapper;
 
 import com.acert.delivery.entity.pedido.Pedido;
-import com.acert.delivery.service.pedido.dto.PedidoDTO;
+import com.acert.delivery.service.pedido.dto.PedidoRequestDTO;
+import com.acert.delivery.service.pedido.dto.PedidoResponseDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,32 +13,28 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PedidoMapper {
 
-    public static Pedido dePedidoDTOParaPedido(PedidoDTO pedidoDTO) {
-        return Optional.ofNullable(pedidoDTO)
+    public static Pedido dePedidoDTOParaPedido(PedidoRequestDTO pedidoRequestDTO) {
+        return Optional.ofNullable(pedidoRequestDTO)
                 .map(pedido -> Pedido.builder()
                         .id(pedido.getId())
-                        .produtosId(pedido.getProdutosId())
+                        .produtoId(pedido.getProdutoId())
                         .entregaId(pedido.getEntregaId())
                         .clienteId(pedido.getClienteId())
                         .build())
                 .orElse(null);
     }
 
-    public static List<PedidoDTO> deListaPedidosParaListaPedidosDTO(List<Pedido> pedidos) {
+    public static List<PedidoResponseDTO> deListaPedidosParaListaPedidosDTO(List<Pedido> pedidos) {
         return pedidos.stream()
                 .map(PedidoMapper::dePedidoParaPedidoDTO)
                 .collect(Collectors.toList());
     }
 
-    public static PedidoDTO dePedidoParaPedidoDTO(Pedido pedido) {
+    public static PedidoResponseDTO dePedidoParaPedidoDTO(Pedido pedido) {
         return Optional.ofNullable(pedido)
-                .map(entidadePedido -> PedidoDTO.builder()
+                .map(entidadePedido -> PedidoResponseDTO.builder()
                         .id(entidadePedido.getId())
-                        .produtosId(entidadePedido.getProdutosId())
-                        .entregaId(entidadePedido.getEntregaId())
-                        .clienteId(entidadePedido.getClienteId())
                         .build())
                 .orElse(null);
     }
-
 }

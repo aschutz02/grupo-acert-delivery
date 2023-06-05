@@ -2,64 +2,89 @@ package com.acert.delivery.service.pedido;
 
 import com.acert.delivery.entity.pedido.Pedido;
 import com.acert.delivery.repository.pedido.PedidoRepository;
-import com.acert.delivery.service.pedido.dto.PedidoDTO;
+import com.acert.delivery.service.cliente.ClienteService;
+import com.acert.delivery.service.cliente.dto.ClienteResponseDTO;
+import com.acert.delivery.service.entrega.EntregaService;
+import com.acert.delivery.service.entrega.dto.EntregaDTO;
+import com.acert.delivery.service.pedido.dto.PedidoRequestDTO;
+import com.acert.delivery.service.pedido.dto.PedidoResponseDTO;
 import com.acert.delivery.service.pedido.exception.PedidoNotFoundException;
+import com.acert.delivery.service.produto.ProdutoService;
+import com.acert.delivery.service.produto.dto.ProdutoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static com.acert.delivery.service.pedido.mapper.PedidoMapper.*;
+import static com.acert.delivery.service.pedido.mapper.PedidoMapper.dePedidoDTOParaPedido;
+import static com.acert.delivery.service.pedido.mapper.PedidoMapper.dePedidoParaPedidoDTO;
 
 @Service
 @RequiredArgsConstructor
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
+    private final EntregaService entregaService;
+    private final ProdutoService produtoService;
+    private final ClienteService clienteService;
     private static final String MENSAGEM_DE_ERRO = "Pedido %s não encontrado.";
 
-    public PedidoDTO cadastrarPedido(PedidoDTO pedidoDTO) {
-        Pedido pedido = dePedidoDTOParaPedido(pedidoDTO);
-        return dePedidoParaPedidoDTO(pedidoRepository.save(pedido));
+    public PedidoResponseDTO cadastrarPedido(PedidoRequestDTO pedidoRequestDTO) {
+        Pedido pedido = dePedidoDTOParaPedido(pedidoRequestDTO);
+        PedidoResponseDTO pedidoResponseDTO = dePedidoParaPedidoDTO(pedidoRepository.save(pedido));
+        return criarPedido(pedidoResponseDTO, pedido);
     }
 
-    public List<PedidoDTO> encontrarTodosOsPedidos() {
-        return deListaPedidosParaListaPedidosDTO(pedidoRepository.findAll());
+    public List<PedidoResponseDTO> encontrarTodosOsPedidos() {
+        List<PedidoResponseDTO> pedidosResponseDTO = new ArrayList<>();
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        pedidos.forEach(pedido -> {
+            PedidoResponseDTO pedidoResponseDTO = dePedidoParaPedidoDTO(pedido);
+            pedidosResponseDTO.add(pedidoResponseDTO);
+        });
+
+        pedidosResponseDTO.forEach(pedidoResponse -> pedidos.forEach(pedido -> criarPedido(pedidoResponse, pedido)));
+
+        return pedidosResponseDTO;
     }
 
-    public PedidoDTO encontrarPeloId(Long id) {
-        return dePedidoParaPedidoDTO(buscarPedidoPeloId(id)
-                .orElseThrow(() -> new PedidoNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
+    public PedidoResponseDTO encontrarPeloId(Long id) {
+        Pedido pedido = buscarPedidoPeloId(id);
+        PedidoResponseDTO pedidoResponseDTO = dePedidoParaPedidoDTO(pedido);
+
+        return criarPedido(pedidoResponseDTO, pedido);
     }
 
-    public PedidoDTO atualizarPedido(Long id, PedidoDTO pedidoDTO) {
-        Optional<Pedido> pedido = buscarPedidoPeloId(id);
+    public PedidoResponseDTO atualizarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) {
+        buscarPedidoPeloId(id);
 
-        if (pedidoExiste(pedido)) {
-            Pedido novoPedido = dePedidoDTOParaPedido(pedidoDTO);
-            return dePedidoParaPedidoDTO(pedidoRepository.save(novoPedido));
-        } else {
-            throw new PedidoNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
-        }
+        Pedido novoPedido = dePedidoDTOParaPedido(pedidoRequestDTO);
+        PedidoResponseDTO pedidoResponseDTO = dePedidoParaPedidoDTO(pedidoRepository.save(novoPedido));
+        return criarPedido(pedidoResponseDTO, novoPedido);
     }
 
     public void deletarPeloId(Long id) {
-        Optional<Pedido> pedido = buscarPedidoPeloId(id);
+        buscarPedidoPeloId(id);
 
-        if (pedidoExiste(pedido)) {
-            pedidoRepository.deleteById(id);
-        } else {
-            throw new PedidoNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
-        }
+        pedidoRepository.deleteById(id);
     }
 
-    private Optional<Pedido> buscarPedidoPeloId(Long id) {
-        return pedidoRepository.findById(id);
+    private PedidoResponseDTO criarPedido(PedidoResponseDTO pedidoResponseDTO, Pedido pedidoEntity) {
+        EntregaDTO entregaDTO = entregaService.encontrarPeloId(pedidoEntity.getEntregaId());
+        ClienteResponseDTO clienteResponseDTO = clienteService.encontrarPeloId(pedidoEntity.getClienteId());
+        ProdutoDTO produtoDTO = produtoService.encontrarPeloId(pedidoEntity.getProdutoId());
+
+        pedidoResponseDTO.setEntrega(entregaDTO);
+        pedidoResponseDTO.setCliente(clienteResponseDTO);
+        pedidoResponseDTO.setProduto(produtoDTO);
+        pedidoResponseDTO.setValorTotal(produtoDTO.getPreco());
+
+        return pedidoResponseDTO;
     }
 
-    private boolean pedidoExiste(Optional<Pedido> optionalPedido) {
-        return optionalPedido.isPresent();
+    private Pedido buscarPedidoPeloId(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new PedidoNotFoundException(String.format(MENSAGEM_DE_ERRO, id)));
     }
-
 }
