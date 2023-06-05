@@ -1,5 +1,6 @@
 package com.acert.delivery.service.cliente.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -18,6 +19,7 @@ public class ClienteResponseDTO {
     @ApiModelProperty(value = "Email", example = "arthur@acert.com")
     private String email;
 
+    @JsonIgnore
     @ApiModelProperty(value = "Senha", example = "1234")
     private String senha;
 }

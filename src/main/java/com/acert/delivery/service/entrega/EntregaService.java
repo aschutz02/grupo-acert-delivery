@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.acert.delivery.service.entrega.mapper.EntregaMapper.*;
 
@@ -29,36 +28,24 @@ public class EntregaService {
     }
 
     public EntregaDTO encontrarPeloId(Long id) {
-        return deEntregaParaEntregaDTO(buscarEntregaPeloId(id)
-                .orElseThrow(() -> new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id))));
+        return deEntregaParaEntregaDTO(buscarEntregaPeloId(id));
     }
 
     public EntregaDTO atualizarEntrega(Long id, EntregaDTO entregaDTO) {
-        Optional<Entrega> entrega = buscarEntregaPeloId(id);
+        buscarEntregaPeloId(id);
 
-        if (entregaExiste(entrega)) {
-            Entrega novaEntrega = deEntregaDTOParaEntrega(entregaDTO);
-            return deEntregaParaEntregaDTO(entregaRepository.save(novaEntrega));
-        } else {
-            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
-        }
+        Entrega novaEntrega = deEntregaDTOParaEntrega(entregaDTO);
+        return deEntregaParaEntregaDTO(entregaRepository.save(novaEntrega));
     }
 
     public void deletarPeloId(Long id) {
-        Optional<Entrega> entrega = buscarEntregaPeloId(id);
+        buscarEntregaPeloId(id);
 
-        if (entregaExiste(entrega)) {
-            entregaRepository.deleteById(id);
-        } else {
-            throw new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id));
-        }
+        entregaRepository.deleteById(id);
     }
 
-    private Optional<Entrega> buscarEntregaPeloId(Long id) {
-        return entregaRepository.findById(id);
-    }
-
-    private boolean entregaExiste(Optional<Entrega> optionalEntrega) {
-        return optionalEntrega.isPresent();
+    private Entrega buscarEntregaPeloId(Long id) {
+        return entregaRepository.findById(id)
+                .orElseThrow(() -> new EntregaNotFoundException(String.format(MENSAGEM_DE_ERRO, id)));
     }
 }
