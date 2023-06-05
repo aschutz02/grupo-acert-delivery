@@ -4,9 +4,13 @@ Teste técnico para o Grupo Acert
 Para rodar a aplicação local, basta se conectar ao banco de dados sobreescrevendo as seguintes informações no arquivo application.properties:
 
 spring.datasource.url=jdbc:firebirdsql://localhost:3050//home/arthur/db/delivery.fdb
+
 spring.datasource.driver-class-name=org.firebirdsql.jdbc.FBDriver
+
 spring.jpa.database-platform=org.hibernate.dialect.FirebirdDialect
+
 spring.datasource.username=SYSDBA
+
 spring.datasource.password=masterkey
 
 E então rodar o sistema através de uma IDE, OU:
@@ -20,6 +24,7 @@ APIs do projeto
 Cadastro:
 
 POST /cadastro - Cadastrar um cliente
+
 ----------------------------------
 Cliente:
 
@@ -27,6 +32,7 @@ GET /cliente - Listar todos os clientes
 GET /cliente/{email) - Encontrar cliente pelo email
 PUT /cliente/{email) - Atualizar um cliente
 DEL /cliente/{email) - Deletar cliente pelo email
+
 ----------------------------------
 Entrega:
 
@@ -35,10 +41,12 @@ GET /entrega - Listar todas as entregas
 GET /entrega/{id) - Encontrar entrega pelo id
 PUT /entrega/{id) - Atualizar uma entrega
 DEL /entrega/{id) - Deletar entrega pelo id
+
 ----------------------------------
 Login:
 
 POST /login/auth - Logar na aplicação
+
 ----------------------------------
 Pedido:
 
@@ -63,7 +71,7 @@ ________________________________________________________________________________
 
 O script usado para criar as tabelas no banco de dados Firebird foi:
 
-CREATE TABLE entregas (
+	CREATE TABLE entregas (
 			id BIGINT NOT NULL,
 			cidade VARCHAR(255) NOT NULL,
 			estado VARCHAR(255) NOT NULL,
