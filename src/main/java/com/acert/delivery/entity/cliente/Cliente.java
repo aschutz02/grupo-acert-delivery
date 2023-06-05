@@ -1,24 +1,12 @@
 package com.acert.delivery.entity.cliente;
 
-import java.io.Serializable;
-import java.util.List;
+import lombok.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.acert.delivery.entity.pedido.Pedido;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "clientes")
@@ -30,8 +18,6 @@ import lombok.Setter;
 public class Cliente implements Serializable {
 
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "id")
 	private Long id;
 
 	@Column(nullable = false)
