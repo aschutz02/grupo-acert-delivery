@@ -14,13 +14,13 @@ E então rodar o sistema através de uma IDE, OU:
 
 Baixar a imagem Docker do seguinte repositório no Docker Hub: https://hub.docker.com/repository/docker/arthurschutz/grupo-acert-delivery/general
 
-docker pull arthurschutz/grupo-acert-delivery:1.0.0
+	docker pull arthurschutz/grupo-acert-delivery:1.0.0
 ___________________________________________________________________________________________________________
 APIs do projeto
 
 Cadastro:
 
-POST /cadastro - Cadastrar um cliente
+	POST /cadastro - Cadastrar um cliente
 
 ----------------------------------
 Cliente:
