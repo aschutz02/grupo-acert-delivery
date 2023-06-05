@@ -1,6 +1,5 @@
 package com.acert.delivery.entity.pedido;
 
-import com.acert.delivery.entity.produto.Produto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,15 +16,14 @@ import java.util.List;
 public class Pedido implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 //	@OneToOne(cascade = CascadeType.ALL)
 //	@JoinColumn(name = "entrega_id", referencedColumnName = "id")
 //	private Entrega entrega;
 
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Produto> produtos;
+//	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<Produto> produtos;
 
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
