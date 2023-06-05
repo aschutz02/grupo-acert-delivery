@@ -3,13 +3,10 @@ Teste técnico para o Grupo Acert
 
 Para rodar a aplicação local, basta se conectar ao banco de dados sobreescrevendo as seguintes informações no arquivo application.properties:
 
-spring.datasource.url=jdbc:firebirdsql://localhost:3050//home/arthur/db/delivery.fdb
-
-spring.datasource.driver-class-name=org.firebirdsql.jdbc.FBDriver
-
-spring.jpa.database-platform=org.hibernate.dialect.FirebirdDialect
-
-spring.datasource.username=SYSDBA
+	spring.datasource.url=jdbc:firebirdsql://localhost:3050//home/arthur/db/delivery.fdb
+	spring.datasource.driver-class-name=org.firebirdsql.jdbc.FBDriver
+	spring.jpa.database-platform=org.hibernate.dialect.FirebirdDialect
+	spring.datasource.username=SYSDBA
 
 spring.datasource.password=masterkey
 
@@ -28,41 +25,42 @@ POST /cadastro - Cadastrar um cliente
 ----------------------------------
 Cliente:
 
-GET /cliente - Listar todos os clientes
-GET /cliente/{email) - Encontrar cliente pelo email
-PUT /cliente/{email) - Atualizar um cliente
-DEL /cliente/{email) - Deletar cliente pelo email
+	GET /cliente - Listar todos os clientes
+	GET /cliente/{email) - Encontrar cliente pelo email
+	PUT /cliente/{email) - Atualizar um cliente
+	DEL /cliente/{email) - Deletar cliente pelo email
 
 ----------------------------------
 Entrega:
 
-POST /entrega - Cadastrar uma entrega
-GET /entrega - Listar todas as entregas
-GET /entrega/{id) - Encontrar entrega pelo id
-PUT /entrega/{id) - Atualizar uma entrega
-DEL /entrega/{id) - Deletar entrega pelo id
+	POST /entrega - Cadastrar uma entrega
+	GET /entrega - Listar todas as entregas
+	GET /entrega/{id) - Encontrar entrega pelo id
+	PUT /entrega/{id) - Atualizar uma entrega
+	DEL /entrega/{id) - Deletar entrega pelo id
 
 ----------------------------------
 Login:
 
-POST /login/auth - Logar na aplicação
+	POST /login/auth - Logar na aplicação
 
 ----------------------------------
 Pedido:
 
-POST /pedido - Cadastrar um pedido
-GET /pedido - Listar todos os pedidos
-GET /pedido/{id) - Encontrar pedido pelo id
-PUT /pedido/{id) - Atualizar um pedido
-DEL /pedido/{id) - Deletar pedido pelo id
+	POST /pedido - Cadastrar um pedido
+	GET /pedido - Listar todos os pedidos
+	GET /pedido/{id) - Encontrar pedido pelo id
+	PUT /pedido/{id) - Atualizar um pedido
+	DEL /pedido/{id) - Deletar pedido pelo id
+
 ----------------------------------
 Produto:
 
-POST /produto - Cadastrar um produto
-GET /produto - Listar todos os produtos
-GET /produto/{id) - Encontrar produto pelo id
-PUT /produto/{id) - Atualizar um produto
-DEL /produto/{id) - Deletar produto pelo id
+	POST /produto - Cadastrar um produto
+	GET /produto - Listar todos os produtos
+	GET /produto/{id) - Encontrar produto pelo id
+	PUT /produto/{id) - Atualizar um produto
+	DEL /produto/{id) - Deletar produto pelo id
 ___________________________________________________________________________________________________________
 OpenAPI 3.0 - Swagger
 
