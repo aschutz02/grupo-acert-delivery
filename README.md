@@ -7,8 +7,7 @@ Para rodar a aplicação local, basta se conectar ao banco de dados sobreescreve
 	spring.datasource.driver-class-name=org.firebirdsql.jdbc.FBDriver
 	spring.jpa.database-platform=org.hibernate.dialect.FirebirdDialect
 	spring.datasource.username=SYSDBA
-
-spring.datasource.password=masterkey
+	spring.datasource.password=masterkey
 
 E então rodar o sistema através de uma IDE, OU:
 
